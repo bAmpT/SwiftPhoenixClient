@@ -20,8 +20,8 @@ public struct Path {
   public static func removeTrailingSlash(path:String) -> String {
     if path.characters.count == 0 { return path }
     
-    if path.substringWithRange(path.endIndex.advancedBy(-1)...path.endIndex) == "/" {
-      return path.substringWithRange(path.startIndex...path.endIndex.advancedBy(-1))
+    if path.characters.last == "/" {
+      return path.substringToIndex(path.endIndex.advancedBy(-1))
     }
     return path
   }
@@ -35,8 +35,8 @@ public struct Path {
    */
   public static func removeLeadingSlash(path:String) -> String {
     if path.characters.count == 0 { return path }
-    if path.substringWithRange(path.startIndex...path.startIndex.advancedBy(1)) == "/" {
-      return path.substringWithRange(path.startIndex.advancedBy(1)...path.endIndex)
+    if path.characters.first == "/" {
+      return path.substringFromIndex(path.startIndex.advancedBy(1))
     }
     return path
   }
