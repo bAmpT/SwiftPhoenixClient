@@ -19,8 +19,9 @@ public struct Path {
    */
   public static func removeTrailingSlash(path:String) -> String {
     if path.characters.count == 0 { return path }
-    if path.substringWithRange(Range<String.Index>(start: path.endIndex.advancedBy(-1), end: path.endIndex)) == "/" {
-      return path.substringWithRange(Range<String.Index>(start:path.startIndex, end: path.endIndex.advancedBy(-1)))
+    
+    if path.substringWithRange(path.endIndex.advancedBy(-1)...path.endIndex) == "/" {
+      return path.substringWithRange(path.startIndex...path.endIndex.advancedBy(-1))
     }
     return path
   }
@@ -34,8 +35,8 @@ public struct Path {
    */
   public static func removeLeadingSlash(path:String) -> String {
     if path.characters.count == 0 { return path }
-    if path.substringWithRange(Range<String.Index>(start: path.startIndex, end: path.startIndex.advancedBy(1))) == "/" {
-      return path.substringWithRange(Range<String.Index>(start:path.startIndex.advancedBy(1), end: path.endIndex))
+    if path.substringWithRange(path.startIndex...path.startIndex.advancedBy(1)) == "/" {
+      return path.substringWithRange(path.startIndex.advancedBy(1)...path.endIndex)
     }
     return path
   }
@@ -52,6 +53,13 @@ public struct Path {
   }
     
     
+    /**
+     Encode the Query Params
+     
+     - parameter string: String
+     
+     - returns: String
+     */
     public static func encodeQuery(string:String) -> String {
         return string.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
     }
@@ -59,13 +67,13 @@ public struct Path {
     /**
      Build the Query Params
      
-     - parameter path: Dict
+     - parameter query: Dict
      
      - returns: String
      */
     public static func buildQueryParams(query:[String:String]) -> String {
         if query.count == 0 { return "" }
-        return "?" + query.map({ $0.0 + "=" + encodeQuery($0.1) }).joinWithSeparator("&").stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        return "?" + query.map({ $0.0 + "=" + encodeQuery($0.1) }).joinWithSeparator("&")
     }
 
   

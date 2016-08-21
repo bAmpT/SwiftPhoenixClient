@@ -20,7 +20,7 @@ public class Serializable : NSObject{
     let propertiesInAClass : UnsafeMutablePointer<objc_property_t> = class_copyPropertyList(aClass, &propertiesCount)
     let propertiesDictionary : NSMutableDictionary = NSMutableDictionary()
     
-    for var i = 0; i < Int(propertiesCount); i++ {
+    for i in 0 ..< Int(propertiesCount) {
       let property = propertiesInAClass[i]
       let propName = NSString(CString: property_getName(property), encoding: NSUTF8StringEncoding)
       let propValue : AnyObject! = self.valueForKey(propName! as String);
